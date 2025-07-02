@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "time": {
+      "disabled": false,
+      "timeout": 60,
+      "command": "uvx",
+      "args": [
+        "mcp-server-time", "--local-timezone=Asia/Shanghai"
+      ],
+      "transportType": "stdio"
+    }
+  }
+}

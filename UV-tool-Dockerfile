@@ -1,0 +1,10 @@
+# docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t 192.168.3.224:8081/docker-release/mcp/mcp-proxy-uv-tool:latest -f UV-tool-Dockerfile .
+FROM ghcr.io/sparfenyuk/mcp-proxy:latest
+
+# Install the 'uv' package
+RUN python3 -m ensurepip && pip install --no-cache-dir uv
+
+ENV PATH="/usr/local/bin:$PATH" \
+    UV_PYTHON_PREFERENCE=only-system
+
+ENTRYPOINT [ "mcp-proxy" ]
