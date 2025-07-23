@@ -1,0 +1,46 @@
+# docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t 192.168.3.224:8081/docker-release/mcp/mcp-proxy-npx-tool:latest -f NPX-tool-Dockerfile .
+# docker run -v B:\code\Python\mcp-proxy:/app/mcp-servers-config/ -p 8080:8080 192.168.3.224:8081/docker-release/mcp/mcp-proxy-uv-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-time.json
+FROM ghcr.io/astral-sh/uv:python3.12-alpine AS uv
+
+# Install the project into /app
+WORKDIR /app
+
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
+
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
+
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev --no-editable
+
+# Then, add the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+ADD . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev --no-editable
+
+FROM node:22-alpine
+
+RUN echo "https://mirrors.tuna.tsinghua.edu.cn/alpine/v$(cut -d. -f1,2 /etc/alpine-release)/main" > /etc/apk/repositories && \
+    echo "https://mirrors.tuna.tsinghua.edu.cn/alpine/v$(cut -d. -f1,2 /etc/alpine-release)/community" >> /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache python3 && \
+    ln -sf /usr/bin/python3 /usr/local/bin/python3
+
+RUN npm config set registry https://registry.npmmirror.com
+
+WORKDIR /app
+
+COPY --from=uv --chown=app:app /app/.venv /app/.venv
+
+WORKDIR /app/.venv/bin
+
+ENV PATH="/usr/local/bin:/app/.venv/bin:$PATH"
+
+EXPOSE 8080
+
+ENTRYPOINT ["sh", "-c", "source activate && exec mcp-proxy \"$@\"", "--"]

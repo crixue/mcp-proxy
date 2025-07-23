@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "time": {
+    "mcp/time": {
       "disabled": false,
       "timeout": 60,
       "command": "uvx",
