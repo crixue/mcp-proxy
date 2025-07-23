@@ -1,5 +1,3 @@
-# docker build --build-arg BUILDKIT_INLINE_CACHE=1 -t 192.168.3.224:8081/docker-release/mcp/mcp-proxy-npx-tool:latest -f NPX-tool-Dockerfile .
-# docker run -v B:\code\Python\mcp-proxy:/app/mcp-servers-config/ -p 8080:8080 192.168.3.224:8081/docker-release/mcp/mcp-proxy-uv-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-time.json
 FROM ghcr.io/astral-sh/uv:python3.12-alpine AS uv
 
 # Install the project into /app
