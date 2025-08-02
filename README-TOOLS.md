@@ -31,9 +31,11 @@ docker build -t <your-registry>/mcp-proxy-npx-tool:latest -f NPX-tool-Dockerfile
 docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 <your-registry>/mcp-proxy-npx-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-time.json
 ```
 
-Or you can download the docker image directly from the registry:
+Or you can download the docker image directly from the registry and then run it:
 ```bash
 docker pull xuerongjing/mcp-proxy-npx-tool:latest
+
+docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 xuerongjing/mcp-proxy-npx-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-time.json
 ```
 
 ---
@@ -63,9 +65,11 @@ docker build -t <your-registry>/mcp-proxy-uv-tool:latest -f UV-tool-Dockerfile .
 docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 <your-registry>/mcp-proxy-uv-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-sequential-thinking.json
 ```
 
-Or you can download the docker image directly from the registry:
+Or you can download the docker image directly from the registry and then run it:
 ```bash
 docker pull xuerongjing/mcp-proxy-uv-tool:latest
+
+docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 xuerongjing/mcp-proxy-uv-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-sequential-thinking.json
 ```
 
 ---
