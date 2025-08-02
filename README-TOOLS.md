@@ -21,12 +21,19 @@ The `NPX-tool-Dockerfile` is designed to build a container image for `mcp-proxy`
 You can update these features based on your specific requirements.
 
 ### Example Build and Run Commands
+
+You can build the source code using the `npx` tool, which is a package runner tool that comes with Node.js. It allows you to run Node.js packages without installing them globally.
 ```bash
 # Build the Docker image
 docker build -t <your-registry>/mcp-proxy-npx-tool:latest -f NPX-tool-Dockerfile .
 
 # You can refer to the `examples/mcp-servers-config` directory for example server configuration files.
 docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 <your-registry>/mcp-proxy-npx-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-time.json
+```
+
+Or you can download the docker image directly from the registry:
+```bash
+docker pull xuerongjing/mcp-proxy-npx-tool:latest
 ```
 
 ---
@@ -46,12 +53,19 @@ The `UV-tool-Dockerfile` is designed to build a container image for `mcp-proxy` 
 You can update these features based on your specific requirements.
 
 ### Example Build and Run Commands
+
+You can build the source code using the `uv` tool, which is a Python package manager that simplifies dependency management and installation.
 ```bash
 # Build the Docker image
 docker build -t <your-registry>/mcp-proxy-uv-tool:latest -f UV-tool-Dockerfile .
 
 # You can refer to the `examples/mcp-servers-config` directory for example server configuration files.
 docker run -v <local-path>:/app/mcp-servers-config/ -p 8080:8080 <your-registry>/mcp-proxy-uv-tool:latest --port=8080 --host=0.0.0.0 --named-server-config /app/mcp-servers-config/mcp-server-sequential-thinking.json
+```
+
+Or you can download the docker image directly from the registry:
+```bash
+docker pull xuerongjing/mcp-proxy-uv-tool:latest
 ```
 
 ---
